@@ -98,8 +98,11 @@ def santaPush(pn, dx, dy):
 def rudophConflict(pn, dx, dy):
     global santaInfos, graph, santaAvailialbe, santaPoint, santaFaint
     santaPoint[pn] += c
-    santaFaint.append(pn)
-    santaFaint.append(pn)
+    if pn in santaFaint:
+        santaFaint.append(pn)
+    else:
+        santaFaint.append(pn)
+        santaFaint.append(pn)
     nx, ny = santaInfos[pn][1]+dx * c, santaInfos[pn][2]+dy * c
     if 0 <= nx <n and 0<= ny <n:
         santaInfos[pn] = [pn, nx, ny]
