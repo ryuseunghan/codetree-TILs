@@ -103,7 +103,7 @@ def fight(i, j):
             continue
         # 사람이 있을 경우
         for person in range(1, m+1):
-            if person != lose and (nx,ny) == (px[j],py[j]):
+            if person != lose and (nx,ny) == (px[person],py[person]):
                 p_dir[lose] = (p_dir[lose] + 1) % 4
                 flag = True
         if flag:
