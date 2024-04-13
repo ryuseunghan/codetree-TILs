@@ -17,6 +17,7 @@ board = [[0]*(n+1)
 available = [[True]*(n+1)
             for _ in range(n+1)
             ]
+
 # 상좌우하
 dx = [-1,0,0,1]
 dy = [0,-1,1,0]
@@ -35,10 +36,11 @@ time = 0
 # 1번 2번
 def move():
     global available,available_people
+    false_list = []
     minimum = min(m+1, time)
     #유효한 사람
     for p_num in range(1,minimum):
-        if available[p_num] != 0:
+        if available_people[p_num]:
             notVisited = [row[:] for row in available]
             distance_board = [[0] * (n + 1) for _ in range(n + 1)]
             q = deque()
@@ -63,8 +65,12 @@ def move():
                         q.append((nx,ny))
             px[p_num],py[p_num] = back_x[x][y],back_y[x][y]
             if (px[p_num],py[p_num]) == (ex, ey):
-                available[px[p_num]][py[p_num]] = False
+                false_list.append((px[p_num],py[p_num]))
+                #available[px[p_num]][py[p_num]] = False
                 available_people[p_num] = False
+    for false in false_list:
+        fx, fy = false
+        available[fx][fy] = False
 
 # 3번 available 가능할 시 cx와 cy 에서 가장 가까운 베이스캠프로 px py 갱신
 def to_base():
@@ -87,7 +93,7 @@ def to_base():
                 q.append((nx, ny))
     close_basecamps = []
     for [x,y] in basecamp_list:
-        if available[x][y]:
+        if available[x][y] and distance_board[x][y]:
             heapq.heappush(close_basecamps,(distance_board[x][y],x,y))
     distance, px[time], py[time] =  heapq.heappop(close_basecamps)
     #베이스캠프 못지나가게끔
