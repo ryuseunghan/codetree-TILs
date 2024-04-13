@@ -7,7 +7,6 @@ board = [ [0] *(m+1)
 k_board = [[0] *(m+1) for _ in range(n+1)]
 visited_board = [[False] *(m+1) for _ in range(n+1)]
 participate_board = [[False] *(m+1) for _ in range(n+1)]
-visited= [[False] *(m+1) for _ in range(n+1)]
 back_x = [[0] *(m+1) for _ in range(n+1)]
 back_y = [[0] *(m+1) for _ in range(n+1)]
 for num in range(1, n+1):
@@ -213,7 +212,7 @@ for time in range(1,k+1):
     offend(offender_1, target_1)
     restore()
     # praticpant board, offend board 초기화 필요
-    visited = [[False] *(m+1) for _ in range(n+1)]
+    visited_board = [[False] *(m+1) for _ in range(n+1)]
     participate_board = [[False] *(m+1) for _ in range(n+1)]
 
 min_max()
