@@ -147,7 +147,7 @@ def offend(offender, target):
     dmg = board[ox][oy]
     tx, ty = target[0], target[1]
     can_attack = False
-    while q:
+    while q and not can_attack:
         cur = q.popleft()
         for i in range(4):
             x, y = cur[0], cur[1]
@@ -162,8 +162,6 @@ def offend(offender, target):
                 back_y[nx][ny] = y
                 q.append((nx,ny))
             if (nx, ny) == target:
-                back_x[nx][ny] = x
-                back_y[nx][ny] = y
                 can_attack = True
                 break
     # razor
