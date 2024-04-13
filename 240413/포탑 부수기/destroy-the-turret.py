@@ -162,6 +162,9 @@ def offend(offender, target):
                 back_y[nx][ny] = y
                 q.append((nx,ny))
             if (nx, ny) == target:
+                back_x[nx][ny] = x
+                back_y[nx][ny] = y
+
                 can_attack = True
                 break
     # razor
