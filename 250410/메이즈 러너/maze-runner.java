@@ -5,7 +5,6 @@ public class Main {
     static int n, m, k;
     static int[][] maze;
     static Person[] people;
-    static int[] closest;
     static int[] exit;
     static int[] move_r = new int[]{-1, 1, 0, 0}; // 상하 좌우
     static int[] move_c = new int[]{0, 0, -1, 1};
@@ -38,15 +37,12 @@ public class Main {
 
         while(k > 0 && leftPeople > 0){
             k--;
-            closest = new int[]{1000, 1000};
             // 참가자 움직임
             for(int i = 0; i < m; i++){
                 if(!arrive[i]){ //도착하지 않은 사용자인 경우
                     Person p = people[i];
                     // 움직이기
                     personMove(p, i);
-                    // 가장 가까운 사람 갱신
-                    if(!arrive[i]) findClosest(p);
                 }
             }
             // 돌리기
@@ -59,13 +55,13 @@ public class Main {
     }
     static void rotateProcess(){
         // 정사각형 구하기
-        int len = Math.max(Math.abs(exit[0] - closest[0]), Math.abs(exit[1] - closest[1]));
-
-        for(int i = 1; i <= n - len; i++){
-            for(int j = 1; j <= n - len; j++){
-                if(inRectangle(i, j, i+ len, j+ len) && inRectangleExit(i, j, i+ len, j+ len)){
-                    rotate(i, j, i+ len, j+ len);
-                    return;
+        for(int len = 1; len <= n-1; len++){
+            for(int i = 1; i <= n - len; i++){
+                for(int j = 1; j <= n - len; j++){
+                    if(inRectangle(i, j, i+ len, j+ len) && inRectangleExit(i, j, i+ len, j+ len)){
+                        rotate(i, j, i+ len, j+ len);
+                        return;
+                    }
                 }
             }
         }
@@ -115,7 +111,10 @@ public class Main {
         exit[1] = newExit[1];
     }
     static boolean inRectangle(int r1, int c1, int r2, int c2){
-        if(closest[0] >=  r1 && closest[0] <= r2 && closest[1] >= c1 && closest[1] <= c2) return true;
+        for(int i = 0; i < m; i++){
+            Person p = people[i];
+            if(!arrive[i] && p.r >=  r1 && p.r <= r2 && p.c >= c1 && p.c <= c2) return true;
+        }
         return false;
     }
     static boolean inRectangleExit(int r1, int c1, int r2, int c2){
@@ -124,25 +123,6 @@ public class Main {
     }
 
 
-    static void findClosest(Person p){
-        // 거리가 같을 때
-        if(calculateDistance(p.r, p.c) == calculateDistance(closest[0], closest[1])){
-            //  row 가 같을 때
-            if(p.r == closest[0]){
-                // col 이 작을 때
-                if(p.c < closest[1]){ closest[0] = p.r; closest[1] = p.c; return;}
-            }
-            // row가 작을 때
-            if(p.r < closest[0]){
-                closest[0] = p.r; closest[1] = p.c; return;
-            }
-        }
-        // 거리가 더 짧을 때
-        if(calculateDistance(p.r, p.c) < calculateDistance(closest[0], closest[1])){
-            closest[0] = p.r; closest[1] = p.c;
-        }
-
-    }
     static void personMove(Person p, int num){
         int distance = calculateDistance(p.r, p.c);
         for(int i = 0; i < 4; i++){
