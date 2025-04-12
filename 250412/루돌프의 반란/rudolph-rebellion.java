@@ -45,6 +45,7 @@ public class Main {
             	}
             }
             Santa closestSanta = pq.poll();
+            if(closestSanta == null) break;
             rudolfMove(closestSanta);
             // 산타 : 루돌프에게 1칸 돌진
             boolean flag = true; // 산타 모두가 장외인 경우 조기 종료
