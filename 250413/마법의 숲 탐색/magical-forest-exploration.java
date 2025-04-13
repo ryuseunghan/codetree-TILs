@@ -37,7 +37,7 @@ public class Main {
 //            	}
 //            	System.out.println();
 //            }
-        	
+//            System.out.println(score);
         }
         
         System.out.println(score);
@@ -74,12 +74,12 @@ public class Main {
     	int golemR = node[0];
 		int golemC = node[1];
 		int golemNum = node[2];
-		int diffNum = -1;
+		Set<Integer> diffNum = new HashSet<>();
     	for(int i = 0 ; i < 4; i++) {
 			int newR = golemR + moveR[i];
 			int newC = golemC + moveC[i];
 			if(inBoard(newR, newC) && graph[newR][newC] != golemNum && graph[newR][newC] != 0) {
-				diffNum =graph[newR][newC];
+				diffNum.add(graph[newR][newC]);
 				graph[newR][newC] = golemNum;
 				visited[newR][newC] = true;
 				queue.offer(new int[] {newR, newC, golemNum});
@@ -94,7 +94,7 @@ public class Main {
     			int newR = golemR + moveR[i];
     			int newC = golemC + moveC[i];
     			// 여기서부터 같은 넘버만 바꿔줌
-    			if(inBoard(newR, newC) && !visited[newR][newC] && graph[newR][newC] == diffNum) {
+    			if(inBoard(newR, newC) && !visited[newR][newC] && diffNum.contains(graph[newR][newC])) {
     				graph[newR][newC] = golemNum;
     				visited[newR][newC] = true;
     				queue.offer(new int[] {newR, newC, golemNum});
